@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online Portfolio</title>
+    <script type="text/javascript" src="files/js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="files/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="files/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="files/css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6"><img class="profile-pic img-responsive" src="images/profilepic.jpg" alt="profile picture">
+            </div>
+            <div class="col-md-6 text-right text-uppercase">
+                <h1 class="title-super text-thin title-color">Kenneth Abad</h1>
+                <h3 class="title-color">Front-end Developer</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-mid-12">
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-mid-12">
+                <img class="img-responsive" src="images/nyc.jpeg" alt="nyc">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-mid-12">
+                <h2 class="text-muted">Featured Work</h2>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-4">
+                <img class="img-responsive" data-toggle="modal" data-target="#project1" src="images/resume.jpeg" alt="Online Resume">
+                <h3>Online Resume</h3>
+                <p><a href="http://github.com/">Source Code</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img class="img-responsive" data-toggle="modal" data-target="#project2" src="images/sunflower.jpeg" alt="Project Sunflower">
+                <h3>Sunflower</h3>
+                <p><a href="http://github.com/">https://github.com/udacity/Sunflower/</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img class="img-responsive" data-toggle="modal" data-target="#project3" src="images/aurora.jpeg" alt="Project Bokeh">
+                <h3>Bokeh</h3>
+                <p><a href="http://github.com/">https://github.com/udacity/Bokeh/</a>
+                </p>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="project1" tabindex="-1" role="dialog" aria-labelledby="project1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalAppify">Online Resume</h4>
+                </div>
+                <div class="modal-body">
+                    <img class="img-responsive" src="images/resume.jpeg" alt="Online Resume"> https://github.com/udacity/Appify/
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="project2" tabindex="-1" role="dialog" aria-labelledby="project2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalSunflower">Sunflower</h4>
+                </div>
+                <div class="modal-body">
+                    <img class="img-responsive" src="images/sunflower.jpeg" alt="Project Sunflower"> https://github.com/udacity/Sunflower/
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="project3" tabindex="-1" role="dialog" aria-labelledby="project3" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalBokeh">Bokeh</h4>
+                </div>
+                <div class="modal-body">
+                    <img class="img-responsive" src="images/aurora.jpeg" alt="Project Bokeh"> https://github.com/udacity/Bokeh/
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
