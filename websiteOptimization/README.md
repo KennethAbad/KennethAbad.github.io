@@ -22,6 +22,22 @@ In order to set up and check the project locally:
 
 7) Click record again to stop recording and view the results.
 
+Here were the optimizations that were applied:
+
+* Pizzeria.jpg had to be duplicated (PizzeriaSmall.jpg was used in index.html), resized and compressed.
+
+* All other images were also compressed.
+
+* External Javascript source calls (analytics.js and perfmatters.js) have been assigned the async attribute.
+
+* External CSS source calls have been relocated above the </body> tag.
+
+* The function changePizzaSizes contained repititions of *document.querySelectorAll(".randomPizzaContainer")*. They have been saved in a variable called randomPizzas and the for loop had to be restructured.
+
+* The function updatePositions had to be restructured for the sliding background pizzas.
+
+* The variable *items* was predefined in the addEventListener 'DOMContentLoaded'.
+
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
 * [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
