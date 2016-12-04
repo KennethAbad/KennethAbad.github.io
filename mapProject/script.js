@@ -5,6 +5,7 @@ var markers = [];
 
 
 function MapVM() {
+    var self = this;
     // Create a styles array to use with the map.
     var styles = [
         {
@@ -131,6 +132,9 @@ function MapVM() {
         styles: styles,
         mapTypeControl: false
     });
+    
+    this.locationList = ko.observableArray([]);
+    
     // These are the real estate listings that will be shown to the user.
     // Normally we'd have these in a database instead.
     var locations = [
@@ -175,6 +179,8 @@ function MapVM() {
         });
         // Push the marker to the array of markers.
         markers.push(marker);
+        self.locationList.push(marker);
+        console.log(self.locationList());
         // Create an onclick event to open an infowindow at each marker.
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
