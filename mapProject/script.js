@@ -2,6 +2,7 @@ var map;
 //Create a new blank array for all the listing markers.
 var marker;
 var markers = [];
+var largeInfowindow;
 
 
 function MapVM() {
@@ -135,6 +136,67 @@ function MapVM() {
     
     this.locationList = ko.observableArray([]);
     
+    // Test for observable clickList function
+    this.clickList = function(clickedItem) {
+        var clickedItemName = clickedItem.title;
+        console.log(clickedItemName);
+        for (var item in self.locationList()){
+            if (clickedItemName === self.locationList()[item].title) {
+            largeInfowindow.setContent('<div>' + self.locationList()[item].title + '</div>');
+            largeInfowindow.open(map, self.locationList()[item]);
+            toggleBounce(self.locationList()[item]);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            largeInfowindow.addListener('closeclick', function() {
+                largeInfowindow.setMarker(null);
+        
+            });
+            }
+        }
+        // Check to make sure the infowindow is not already opened on this marker.
+        /*if (infowindow.marker != marker) {
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + self.locationList().title + '</div>');
+            infowindow.open(map, marker);
+            toggleBounce(self.marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+                infowindow.setMarker(null);
+        
+            });
+            var streetViewService = new google.maps.StreetViewService();
+            var radius = 50;
+            // In case the status is OK, which means the pano was found, compute the
+            // position of the streetview image, then calculate the heading, then get a
+            // panorama from that and set the options
+            function getStreetView(data, status) {
+                if (status == google.maps.StreetViewStatus.OK) {
+                    var nearStreetViewLocation = data.location.latLng;
+                    var heading = google.maps.geometry.spherical.computeHeading(
+                    nearStreetViewLocation, marker.position);
+                    infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+                    var panoramaOptions = {
+                        position: nearStreetViewLocation,
+                        pov: {
+                            heading: heading,
+                            pitch: 30
+                        }
+                    };
+                    var panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('pano'), panoramaOptions);
+                } else {
+                    infowindow.setContent('<div>' + marker.title + '</div>' +
+                                         '<div>No Street View Found</div>');
+                }
+            }
+            // Use streetview service to get the closest streetview image within
+            // 50 meters of the markers position
+            streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            // Open the infowindow on the correct marker.
+            infowindow.open(map, marker);
+        }
+        
+    */};
+    
     // These are the real estate listings that will be shown to the user.
     // Normally we'd have these in a database instead.
     var locations = [
@@ -155,7 +217,7 @@ function MapVM() {
         {title: 'Central Park', location: {lat: 40.779667, lng: -73.969}}
     ];
     
-    var largeInfowindow = new google.maps.InfoWindow();
+    largeInfowindow = new google.maps.InfoWindow();
     
     // Style the markers a bit. This will be our listing marker icon.
     var defaultIcon = makeMarkerIcon('63DE63');

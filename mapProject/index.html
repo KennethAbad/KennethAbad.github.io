@@ -19,7 +19,7 @@
                     <h4>Locations:</h4>
                        <ul data-bind="foreach: { data: locationList, as: 'location' }">
                         <li id="location-list-item">
-                            <span data-bind="text: location.title"></span>
+                            <span data-bind="text: location.title, click: $parent.clickList"></span>
                         </li>
                     </ul>              
                </div>
