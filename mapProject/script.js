@@ -1,6 +1,6 @@
 var map;
-//Create a new blank array for all the listing markers.
 var marker;
+//Create a new blank array for all the listing markers.
 var markers = [];
 var largeInfowindow;
 
@@ -134,17 +134,25 @@ function MapVM() {
         mapTypeControl: false
     });
     
+    // Array that holds markers which binds to clickList
     this.locationList = ko.observableArray([]);
+    // Value in the search input bar
+    this.searchValue = ko.observable();
+    // Array that contains only the locations that match the search value
+    this.searchList = ko.observableArray([]);
+    // Array that contains all the markers/locations
+    this.mapList = ko.observableArray([]);
     
-    // Test for observable clickList function
+    // Function that is executed once the user clicks on a location from the list.
+    // When clicked, its marker on the map will animate and open an infowindow with the content.
     this.clickList = function(clickedItem) {
         var clickedItemName = clickedItem.title;
         console.log(clickedItemName);
-        for (var item in self.locationList()){
-            if (clickedItemName === self.locationList()[item].title) {
-            largeInfowindow.setContent('<div>' + self.locationList()[item].title + '</div>');
-            largeInfowindow.open(map, self.locationList()[item]);
-            toggleBounce(self.locationList()[item]);
+        for (var item in self.mapList()){
+            if (clickedItemName === self.mapList()[item].title) {
+            largeInfowindow.setContent('<div>' + self.mapList()[item].title + '</div>');
+            largeInfowindow.open(map, self.mapList()[item]);
+            toggleBounce(self.mapList()[item]);
             // Make sure the marker property is cleared if the infowindow is closed.
             largeInfowindow.addListener('closeclick', function() {
                 largeInfowindow.setMarker(null);
@@ -196,6 +204,28 @@ function MapVM() {
         }
         
     */};
+    // Function executed once a user enters a value into the search bar.
+    // Once entered, the value is compared to mapList array.
+    // If it finds a match, the location/marker is then pushed onto the locationList array.
+    this.searchLocation = function() {
+        var searchElem = self.searchValue().toLowerCase();
+        console.log(searchElem);
+        var array = self.mapList();
+        
+        self.locationList([]);
+        
+        for (i=0; i< array.length; i++) {
+            if (array[i].title.toLowerCase().indexOf(searchElem) != -1) {
+                self.mapList()[i].setMap(map);
+                self.locationList.push(array[i]);
+                console.log(self.locationList());
+            }
+            else {
+                self.mapList()[i].setMap(null);
+            }
+        }
+        
+    };
     
     // These are the real estate listings that will be shown to the user.
     // Normally we'd have these in a database instead.
@@ -242,6 +272,7 @@ function MapVM() {
         // Push the marker to the array of markers.
         markers.push(marker);
         self.locationList.push(marker);
+        self.mapList.push(marker);
         console.log(self.locationList());
         // Create an onclick event to open an infowindow at each marker.
         marker.addListener('click', function() {
