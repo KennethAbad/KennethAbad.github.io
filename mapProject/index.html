@@ -17,11 +17,15 @@
                        <input type="text" id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
                    </form>         
                     <h4>Locations:</h4>
-                       <ul data-bind="foreach: { data: locationList, as: 'location' }">
-                        <li id="location-list-item">
-                            <span data-bind="text: location.title, click: $parent.clickList"></span>
-                        </li>
-                    </ul>              
+                        <ul data-bind="foreach: { data: locationList, as: 'location' }">
+                            <li id="location-list-item">
+                                <span data-bind="text: location.title, click: $parent.clickList"></span>
+                            </li>
+                        </ul> 
+                        <h1>Popular Pictures</h1>  
+                        <ul class="popular">
+                            
+                        </ul>           
                </div>
            </div>
        

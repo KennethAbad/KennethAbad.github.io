@@ -3,7 +3,9 @@ var marker;
 //Create a new blank array for all the listing markers.
 var markers = [];
 var largeInfowindow;
-
+var instagramAPI = '1426382860.5b49bcd.553ed78233dc404ba8b340f062086ec5';
+var instagramURL = 'https://api.instagram.com/v1/tags/' + hashtag + '/media/recent';
+var hashtag = 'moonlight';
 
 function MapVM() {
     var self = this;
@@ -290,6 +292,21 @@ function MapVM() {
     }
 
 }
+$.ajax({
+    url: instagramURL,
+    dataType: 'jsonp',
+    type: 'GET',
+    data: {access_token: instagramAPI, count: 3},
+    success: function(data){
+        console.log(data);
+        for(x in data.data){
+            $(".popular").append('<li><img src="'+data.data[x].images.standard_resolution.url+'"></li>');
+        }
+    },
+    error: function(data){
+        console.log(data);
+    }
+});
     // This function populates the infowindow when the marker is clicked. It will only allow
     // one infowindow which will open at the marker that is clicked, and populate based 
     // on that markers position.
