@@ -4,6 +4,7 @@ var marker;
 var markers = [];
 var largeInfowindow;
 
+
 function MapVM() {
     var self = this;
     // Create a styles array to use with the map.
@@ -287,9 +288,43 @@ function MapVM() {
         });
         new ListName(marker.title);
     }
+    getFlickrImage();
 
 }
-
+    // NOTE &text is the variable that needs to change according to the location name.
+    function getFlickrImage() {
+        var API_KEY = '726f7dd8d302db9f8739f6b18d781353';
+        var USER_ID;
+        var base_url = 'https://api.flickr.com/services/rest/?';
+        var method = 'flickr.photos.search';
+        var url = base_url +
+                    'method=' + method +
+                    '&api_key=' + API_KEY +
+                    '&text=kinokuniya+new+york' +
+                    '&per_page=4' +
+                    '&sort=relevance' +
+                    '&format=json' +
+                    '&nojsoncallback=1';
+        
+        $.getJSON(url, function(data) {
+           console.log(data);
+           console.log(url);
+            $.each(data.photos.photo, function(i, item){
+                var photoURL = 'http://farm' 
+                                + item.farm
+                                + '.static.flickr.com/' 
+                                + item.server 
+                                + '/'
+                                + item.id 
+                                + '_'
+                                + item.secret
+                                + '_m.jpg';
+                console.log(photoURL);
+                var imgCont = '<img src="' + photoURL + '";)>';
+                $(imgCont).appendTo('.image-container');
+            })
+        })
+    }
     // This function populates the infowindow when the marker is clicked. It will only allow
     // one infowindow which will open at the marker that is clicked, and populate based 
     // on that markers position.
