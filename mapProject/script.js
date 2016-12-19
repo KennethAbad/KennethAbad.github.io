@@ -153,7 +153,7 @@ function MapVM() {
         console.log(clickedItemName);
         for (var item in self.mapList()){
             if (clickedItemName === self.mapList()[item].title) {
-            largeInfowindow.setContent('<div>' + self.mapList()[item].title + '</div>' + '<div class="image-container"></div>');
+            largeInfowindow.setContent('<div align=center><h4>' + self.mapList()[item].title + '</h4></div>' + '<div class="image-container"></div>');
             getFlickrImage();    
             largeInfowindow.open(map, self.mapList()[item]);
             toggleBounce(self.mapList()[item]);
@@ -250,10 +250,8 @@ function MapVM() {
         });
         new ListName(marker.title);
     }
-    getFlickrImage();
 
 }
-    // NOTE &text is the variable that needs to change according to the location name.
     function getFlickrImage() {
         var API_KEY = '726f7dd8d302db9f8739f6b18d781353';
         var USER_ID;
@@ -282,8 +280,8 @@ function MapVM() {
                                 + item.secret
                                 + '_m.jpg';
                 console.log(photoURL);
-                var imgCont = '<img src="' + photoURL + '";)>';
-                $(imgCont).appendTo('.image-container');
+                var imgCont = '<div><img src="' + photoURL + '";)></div>';
+                $(imgCont).appendTo('.image-container'); // REFACTOR APPEND TO A LOOP FOR 4 DIVS
             })
         })
     }
@@ -294,17 +292,18 @@ function MapVM() {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
             infowindow.marker = marker;
-            infowindow.setContent('<div>' + marker.title + '</div>');
+            infowindow.setContent('<div align=center><h4>' + marker.title + '</h4></div>'+ '<div class="image-container"></div>');
             infowindow.open(map, marker);
             apiSearchText = marker.title.split(' ').join('+');
             console.log(apiSearchText);
             toggleBounce(marker);
+            getFlickrImage();
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function() {
                 infowindow.setMarker(null);
         
             });
-            var streetViewService = new google.maps.StreetViewService();
+            /*var streetViewService = new google.maps.StreetViewService();
             var radius = 50;
             // In case the status is OK, which means the pano was found, compute the
             // position of the streetview image, then calculate the heading, then get a
@@ -333,7 +332,7 @@ function MapVM() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
             // Open the infowindow on the correct marker.
-            infowindow.open(map, marker);
+            infowindow.open(map, marker);*/
         }
         
     }
