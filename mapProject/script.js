@@ -3,7 +3,8 @@ var marker;
 //Create a new blank array for all the listing markers.
 var markers = [];
 var largeInfowindow;
-
+// variable to hold the text value for the api search
+var apiSearchText;
 
 function MapVM() {
     var self = this;
@@ -147,10 +148,13 @@ function MapVM() {
     // When clicked, its marker on the map will animate and open an infowindow with the content.
     this.clickList = function(clickedItem) {
         var clickedItemName = clickedItem.title;
+        apiSearchText = clickedItemName.split(' ').join('+');
+        console.log(apiSearchText);
         console.log(clickedItemName);
         for (var item in self.mapList()){
             if (clickedItemName === self.mapList()[item].title) {
-            largeInfowindow.setContent('<div>' + self.mapList()[item].title + '</div>');
+            largeInfowindow.setContent('<div>' + self.mapList()[item].title + '</div>' + '<div class="image-container"></div>');
+            getFlickrImage();    
             largeInfowindow.open(map, self.mapList()[item]);
             toggleBounce(self.mapList()[item]);
             // Make sure the marker property is cleared if the infowindow is closed.
@@ -160,50 +164,8 @@ function MapVM() {
             });
             }
         }
-        // Check to make sure the infowindow is not already opened on this marker.
-        /*if (infowindow.marker != marker) {
-            infowindow.marker = marker;
-            infowindow.setContent('<div>' + self.locationList().title + '</div>');
-            infowindow.open(map, marker);
-            toggleBounce(self.marker);
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick', function() {
-                infowindow.setMarker(null);
-        
-            });
-            var streetViewService = new google.maps.StreetViewService();
-            var radius = 50;
-            // In case the status is OK, which means the pano was found, compute the
-            // position of the streetview image, then calculate the heading, then get a
-            // panorama from that and set the options
-            function getStreetView(data, status) {
-                if (status == google.maps.StreetViewStatus.OK) {
-                    var nearStreetViewLocation = data.location.latLng;
-                    var heading = google.maps.geometry.spherical.computeHeading(
-                    nearStreetViewLocation, marker.position);
-                    infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-                    var panoramaOptions = {
-                        position: nearStreetViewLocation,
-                        pov: {
-                            heading: heading,
-                            pitch: 30
-                        }
-                    };
-                    var panorama = new google.maps.StreetViewPanorama(
-                    document.getElementById('pano'), panoramaOptions);
-                } else {
-                    infowindow.setContent('<div>' + marker.title + '</div>' +
-                                         '<div>No Street View Found</div>');
-                }
-            }
-            // Use streetview service to get the closest streetview image within
-            // 50 meters of the markers position
-            streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-            // Open the infowindow on the correct marker.
-            infowindow.open(map, marker);
-        }
-        
-    */};
+    };
+    
     // Function executed once a user enters a value into the search bar.
     // Once entered, the value is compared to mapList array.
     // If it finds a match, the location/marker is then pushed onto the locationList array.
@@ -300,7 +262,7 @@ function MapVM() {
         var url = base_url +
                     'method=' + method +
                     '&api_key=' + API_KEY +
-                    '&text=kinokuniya+new+york' +
+                    '&text=' + apiSearchText + '+nyc' +
                     '&per_page=4' +
                     '&sort=relevance' +
                     '&format=json' +
@@ -334,6 +296,8 @@ function MapVM() {
             infowindow.marker = marker;
             infowindow.setContent('<div>' + marker.title + '</div>');
             infowindow.open(map, marker);
+            apiSearchText = marker.title.split(' ').join('+');
+            console.log(apiSearchText);
             toggleBounce(marker);
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function() {
