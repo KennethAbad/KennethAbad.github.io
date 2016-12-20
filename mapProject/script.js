@@ -252,6 +252,9 @@ function MapVM() {
     }
 
 }
+
+    // This function populates images from the Flickr API. It grabs the location name and uses it as search text.
+    // Once entered, it then grabs 4 images from the search results, creates an image url and displays them on the infowindow.
     function getFlickrImage() {
         var API_KEY = '726f7dd8d302db9f8739f6b18d781353';
         var USER_ID;
@@ -281,7 +284,7 @@ function MapVM() {
                                 + '_m.jpg';
                 console.log(photoURL);
                 var imgCont = '<div><img src="' + photoURL + '";)></div>';
-                $(imgCont).appendTo('.image-container'); // REFACTOR APPEND TO A LOOP FOR 4 DIVS
+                $(imgCont).appendTo('.image-container');
             })
         })
     }
