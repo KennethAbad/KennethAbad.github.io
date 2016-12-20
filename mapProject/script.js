@@ -133,16 +133,22 @@ function MapVM() {
         }]
     }];
 
+    //map error handling
+    this.mapRequestTimeout = setTimeout(function() {
+        alert('Error loading Google Maps.');
+    });
+
     // Constructor creates a new map
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: 40.7413549,
             lng: -73.9980244
         },
-        zoom: 13,
+        zoom: 12,
         styles: styles,
         mapTypeControl: false
     });
+    clearTimeout(self.mapRequestTimeout);
 
     // Array that holds markers which binds to clickList
     this.locationList = ko.observableArray([]);
@@ -162,7 +168,8 @@ function MapVM() {
         console.log(clickedItemName);
         for (var item in self.mapList()) {
             if (clickedItemName === self.mapList()[item].title) {
-                largeInfowindow.setContent('<div align=center><h4>' + self.mapList()[item].title + '</h4></div>' + '<div class="image-container"></div>');
+                map.panTo(self.mapList()[item].position);
+                largeInfowindow.setContent('<div align=center><h4>' + self.mapList()[item].title + '</h4></div>' + '<div id="info" class="image-container"></div>');
                 getFlickrImage();
                 largeInfowindow.open(map, self.mapList()[item]);
                 toggleBounce(self.mapList()[item]);
@@ -352,23 +359,31 @@ function getFlickrImage() {
         '&nojsoncallback=1';
 
     $.getJSON(url, function(data) {
-        console.log(data);
-        console.log(url);
-        $.each(data.photos.photo, function(i, item) {
-            var photoURL = 'http://farm' +
-                item.farm +
-                '.static.flickr.com/' +
-                item.server +
-                '/' +
-                item.id +
-                '_' +
-                item.secret +
-                '_m.jpg';
-            console.log(photoURL);
-            var imgCont = '<div><img src="' + photoURL + '";)></div>';
-            $(imgCont).appendTo('.image-container');
+            console.log(data);
+            console.log(url);
+            $.each(data.photos.photo, function(i, item) {
+                var photoURL = 'http://farm' +
+                    item.farm +
+                    '.static.flickr.com/' +
+                    item.server +
+                    '/' +
+                    item.id +
+                    '_' +
+                    item.secret +
+                    '_m.jpg';
+                console.log(photoURL);
+                var imgCont = '<div><img src="' + photoURL + '";)></div>';
+                $(imgCont).appendTo('.image-container');
+            })
         })
-    })
+        // error handling
+        .fail(function() {
+            alert('error loading Flickr API');
+        });
+}
+//error handling function for google maps
+function googleError() {
+    alert('Google Maps Load Error');
 }
 // This function populates the infowindow when the marker is clicked. It will only allow
 // one infowindow which will open at the marker that is clicked, and populate based 
@@ -377,7 +392,8 @@ function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div align=center><h4>' + marker.title + '</h4></div>' + '<div class="image-container"></div>');
+        map.panTo(marker.position);
+        infowindow.setContent('<div align=center><h4>' + marker.title + '</h4></div>' + '<div id="info" class="image-container"></div>');
         infowindow.open(map, marker);
         apiSearchText = marker.title.split(' ').join('+');
         console.log(apiSearchText);
@@ -432,7 +448,7 @@ function toggleBounce(marker) {
 }
 
 // This function will loop through the markers array and display them all.
-function showListings() {
+function showLocations() {
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
     for (var i = 0; i < markers.length; i++) {
@@ -444,7 +460,7 @@ function showListings() {
 }
 
 // This function will loop through the listings and hide them all.
-function hideListings() {
+function hideLocations() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }

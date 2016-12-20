@@ -35,8 +35,8 @@ h1{
     text-align: center;
 }
             
-#hide-listings,
-#show-listings {
+#hide-locations,
+#show-locations {
     width: 48%;
 }
             
@@ -67,7 +67,7 @@ hr {
     overflow: auto;
 }
             
-#pano {
+#info {
     width: 200px;
     height: 200px;
 }

@@ -9,14 +9,14 @@
            <div class="options-box">
                <h1>NYC Snapshots</h1>
                <div>
-                   <input id="show-listings" type="button" data-bind='click: showListings' value="Show Listings">
-                   <input id="hide-listings" type="button" data-bind='click: hideListings' value="Hide Listings">
+                   <input id="show-locations" type="button" data-bind='click: showLocations' value="Show Locations">
+                   <input id="hide-locations" type="button" data-bind='click: hideLocations' value="Hide Locations">
                </div>
                <div id='locations-container'> 
                    <form id="form-container" class="form-container" data-bind='submit: searchLocation'>
                        <input type="text" id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
                    </form>         
-                    <h4>Locations:</h4>
+                    <h4 align=center>Locations</h4>
                         <ul data-bind="foreach: { data: locationList, as: 'location' }">
                             <li id="location-list-item">
                                 <span data-bind="text: location.title, click: $parent.clickList"></span>
@@ -30,7 +30,7 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
        <script type='text/javascript' src='knockout-3.4.1.js'></script>
         <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClciKsNtBjJbCGumw5nyi0CM45vmaTxxo&libraries=geometry&v=3&callback=loadMap">           </script>
-                  <script async src="script.js"></script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClciKsNtBjJbCGumw5nyi0CM45vmaTxxo&libraries=geometry&v=3&callback=loadMap" onerror="googleError()">           </script>
+                  <script src="script.js"></script>
     </body>
 </html>
