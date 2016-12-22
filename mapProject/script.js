@@ -1,10 +1,12 @@
 var map;
 var marker;
-//Create a new blank array for all the listing markers.
+// a blank array for all the listing markers.
 var markers = [];
 var largeInfowindow;
 // variable to hold the text value for the api search
 var apiSearchText;
+// a blank array for all the image content markup
+var urls = [];
 
 function MapVM() {
     var self = this;
@@ -133,11 +135,6 @@ function MapVM() {
         }]
     }];
 
-    //map error handling
-    this.mapRequestTimeout = setTimeout(function() {
-        alert('Error loading Google Maps.');
-    });
-
     // Constructor creates a new map
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -148,7 +145,6 @@ function MapVM() {
         styles: styles,
         mapTypeControl: false
     });
-    clearTimeout(self.mapRequestTimeout);
 
     // Array that holds markers which binds to clickList
     this.locationList = ko.observableArray([]);
@@ -163,23 +159,10 @@ function MapVM() {
     // When clicked, its marker on the map will animate and open an infowindow with the content.
     this.clickList = function(clickedItem) {
         var clickedItemName = clickedItem.title;
-        apiSearchText = clickedItemName.split(' ').join('+');
+        getFlickrImage(clickedItemName);
         console.log(apiSearchText);
         console.log(clickedItemName);
-        for (var item in self.mapList()) {
-            if (clickedItemName === self.mapList()[item].title) {
-                map.panTo(self.mapList()[item].position);
-                largeInfowindow.setContent('<div align=center><h4>' + self.mapList()[item].title + '</h4></div>' + '<div id="info" class="image-container"></div>');
-                getFlickrImage();
-                largeInfowindow.open(map, self.mapList()[item]);
-                toggleBounce(self.mapList()[item]);
-                // Make sure the marker property is cleared if the infowindow is closed.
-                largeInfowindow.addListener('closeclick', function() {
-                    largeInfowindow.setMarker(null);
-
-                });
-            }
-        }
+        
     };
 
     // Function executed once a user enters a value into the search bar.
@@ -189,7 +172,7 @@ function MapVM() {
         var searchElem = self.searchValue().toLowerCase();
         console.log(searchElem);
         var array = self.mapList();
-
+        // clear array
         self.locationList([]);
 
         for (i = 0; i < array.length; i++) {
@@ -201,7 +184,6 @@ function MapVM() {
                 self.mapList()[i].setMap(null);
             }
         }
-
     };
 
     // These are the real estate listings that will be shown to the user.
@@ -337,14 +319,14 @@ function MapVM() {
         marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
         });
-        new ListName(marker.title);
+        showLocations();
     }
-
 }
 
 // This function populates images from the Flickr API. It grabs the location name and uses it as search text.
 // Once entered, it then grabs 4 images from the search results, creates an image url and displays them on the infowindow.
-function getFlickrImage() {
+function getFlickrImage(clickedItemName) {
+    apiSearchText = clickedItemName.split(' ').join('+');
     var API_KEY = '726f7dd8d302db9f8739f6b18d781353';
     var USER_ID;
     var base_url = 'https://api.flickr.com/services/rest/?';
@@ -357,12 +339,14 @@ function getFlickrImage() {
         '&sort=relevance' +
         '&format=json' +
         '&nojsoncallback=1';
-
     $.getJSON(url, function(data) {
+            var photoURL;
             console.log(data);
             console.log(url);
+            // clear array
+            urls = [];
             $.each(data.photos.photo, function(i, item) {
-                var photoURL = 'http://farm' +
+                    photoURL = '<div><img src="http://farm' +
                     item.farm +
                     '.static.flickr.com/' +
                     item.server +
@@ -370,21 +354,39 @@ function getFlickrImage() {
                     item.id +
                     '_' +
                     item.secret +
-                    '_m.jpg';
+                    '_m.jpg";)></div>';
                 console.log(photoURL);
-                var imgCont = '<div><img src="' + photoURL + '";)></div>';
-                $(imgCont).appendTo('.image-container');
+                urls.push(photoURL);
             })
+            $.each(markers, function(item, location) {
+                if (clickedItemName === location.title) {
+                    map.panTo(location.position);
+                    console.log(clickedItemName);
+                    largeInfowindow.setContent('<div align=center><h4>' + location.title + '</h4></div>' 
+                                               + '<div id="info" class="image-container">' 
+                                               +  urls.join('')
+                                               + '</div>');     
+                    largeInfowindow.open(map, location);
+                    toggleBounce(location);
+                    // Make sure the marker property is cleared if the infowindow is closed.
+                    largeInfowindow.addListener('closeclick', function() {
+                        largeInfowindow.setMarker(null);
+                    });
+                }
+            })
+        
         })
-        // error handling
-        .fail(function() {
-            alert('error loading Flickr API');
-        });
+    // error handling
+    .fail(function() {
+        alert('error loading Flickr API');
+    });
 }
+
 //error handling function for google maps
 function googleError() {
     alert('Google Maps Load Error');
 }
+
 // This function populates the infowindow when the marker is clicked. It will only allow
 // one infowindow which will open at the marker that is clicked, and populate based 
 // on that markers position.
@@ -393,55 +395,15 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         map.panTo(marker.position);
-        infowindow.setContent('<div align=center><h4>' + marker.title + '</h4></div>' + '<div id="info" class="image-container"></div>');
-        infowindow.open(map, marker);
-        apiSearchText = marker.title.split(' ').join('+');
-        console.log(apiSearchText);
         toggleBounce(marker);
-        getFlickrImage();
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function() {
-            infowindow.setMarker(null);
-
-        });
-        /*var streetViewService = new google.maps.StreetViewService();
-        var radius = 50;
-        // In case the status is OK, which means the pano was found, compute the
-        // position of the streetview image, then calculate the heading, then get a
-        // panorama from that and set the options
-        function getStreetView(data, status) {
-            if (status == google.maps.StreetViewStatus.OK) {
-                var nearStreetViewLocation = data.location.latLng;
-                var heading = google.maps.geometry.spherical.computeHeading(
-                nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-                var panoramaOptions = {
-                    position: nearStreetViewLocation,
-                    pov: {
-                        heading: heading,
-                        pitch: 30
-                    }
-                };
-                var panorama = new google.maps.StreetViewPanorama(
-                document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindow.setContent('<div>' + marker.title + '</div>' +
-                                     '<div>No Street View Found</div>');
-            }
-        }
-        // Use streetview service to get the closest streetview image within
-        // 50 meters of the markers position
-        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-        // Open the infowindow on the correct marker.
-        infowindow.open(map, marker);*/
+        getFlickrImage(marker.title);
     }
-
 }
+
 // This function will toggle a bounce animation to the marker when clicked
 function toggleBounce(marker) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setAnimation(null);
-
     }
     marker.setAnimation(google.maps.Animation.BOUNCE);
     console.log(marker);
@@ -459,18 +421,6 @@ function showLocations() {
     map.fitBounds(bounds);
 }
 
-// This function will loop through the listings and hide them all.
-function hideLocations() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-}
-
-function ListName(title) {
-    var self = this;
-    self.name = title;
-    console.log(self.name);
-}
 // This function takes in a COLOR, and then creates a new marker
 // icon of that color. The icon will be 21x wide by 34 high, have an origin
 // of 0, 0 and be anchored at 10, 34).
@@ -483,9 +433,7 @@ function makeMarkerIcon(markerColor) {
         new google.maps.Point(10, 34),
         new google.maps.Size(21, 34));
     return markerImage;
-
 }
-
 
 function loadMap() {
     ko.applyBindings(new MapVM());

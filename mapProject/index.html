@@ -8,10 +8,6 @@
        <div class="container">
            <div class="options-box">
                <h1>NYC Snapshots</h1>
-               <div>
-                   <input id="show-locations" type="button" data-bind='click: showLocations' value="Show Locations">
-                   <input id="hide-locations" type="button" data-bind='click: hideLocations' value="Hide Locations">
-               </div>
                <div id='locations-container'> 
                    <form id="form-container" class="form-container" data-bind='submit: searchLocation'>
                        <input type="text" id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
