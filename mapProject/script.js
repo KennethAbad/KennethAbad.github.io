@@ -160,9 +160,6 @@ function MapVM() {
     this.clickList = function(clickedItem) {
         var clickedItemName = clickedItem.title;
         getFlickrImage(clickedItemName);
-        console.log(apiSearchText);
-        console.log(clickedItemName);
-        
     };
 
     // Function executed once a user enters a value into the search bar.
@@ -170,8 +167,8 @@ function MapVM() {
     // If it finds a match, the location/marker is then pushed onto the locationList array.
     this.searchLocation = function() {
         var searchElem = self.searchValue().toLowerCase();
-        console.log(searchElem);
         var array = self.mapList();
+
         // clear array
         self.locationList([]);
 
@@ -179,7 +176,6 @@ function MapVM() {
             if (array[i].title.toLowerCase().indexOf(searchElem) != -1) {
                 self.mapList()[i].setMap(map);
                 self.locationList.push(array[i]);
-                console.log(self.locationList());
             } else {
                 self.mapList()[i].setMap(null);
             }
@@ -306,7 +302,6 @@ function MapVM() {
         markers.push(marker);
         self.locationList.push(marker);
         self.mapList.push(marker);
-        console.log(self.locationList());
         // Create an onclick event to open an infowindow at each marker.
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
@@ -341,12 +336,10 @@ function getFlickrImage(clickedItemName) {
         '&nojsoncallback=1';
     $.getJSON(url, function(data) {
             var photoURL;
-            console.log(data);
-            console.log(url);
             // clear array
             urls = [];
             $.each(data.photos.photo, function(i, item) {
-                    photoURL = '<div><img src="http://farm' +
+                photoURL = '<div><img src="http://farm' +
                     item.farm +
                     '.static.flickr.com/' +
                     item.server +
@@ -355,17 +348,15 @@ function getFlickrImage(clickedItemName) {
                     '_' +
                     item.secret +
                     '_m.jpg";)></div>';
-                console.log(photoURL);
                 urls.push(photoURL);
             })
             $.each(markers, function(item, location) {
                 if (clickedItemName === location.title) {
                     map.panTo(location.position);
-                    console.log(clickedItemName);
-                    largeInfowindow.setContent('<div align=center><h4>' + location.title + '</h4></div>' 
-                                               + '<div id="info" class="image-container">' 
-                                               +  urls.join('')
-                                               + '</div>');     
+                    largeInfowindow.setContent('<div align=center><h4>' + location.title + '</h4></div>' +
+                        '<div id="info" class="image-container">' +
+                        urls.join('') +
+                        '</div>');
                     largeInfowindow.open(map, location);
                     toggleBounce(location);
                     // Make sure the marker property is cleared if the infowindow is closed.
@@ -374,12 +365,12 @@ function getFlickrImage(clickedItemName) {
                     });
                 }
             })
-        
+
         })
-    // error handling
-    .fail(function() {
-        alert('error loading Flickr API');
-    });
+        // error handling
+        .fail(function() {
+            alert('error loading Flickr API');
+        });
 }
 
 //error handling function for google maps
@@ -406,7 +397,6 @@ function toggleBounce(marker) {
         markers[i].setAnimation(null);
     }
     marker.setAnimation(google.maps.Animation.BOUNCE);
-    console.log(marker);
 }
 
 // This function will loop through the markers array and display them all.
