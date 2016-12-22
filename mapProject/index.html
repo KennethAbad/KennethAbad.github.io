@@ -2,7 +2,7 @@
 <html>
     <head>
     <link rel="stylesheet" href="css/style.css">
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
        <div class="container">
@@ -10,9 +10,9 @@
                <h1>NYC Snapshots</h1>
                <div id='locations-container'> 
                    <form id="form-container" class="form-container" data-bind='submit: searchLocation'>
-                       <input type="text" id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
+                       <input id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
                    </form>         
-                    <h4 align=center>Locations</h4>
+                    <h4>Locations</h4>
                         <ul data-bind="foreach: { data: locationList, as: 'location' }">
                             <li id="location-list-item">
                                 <span data-bind="text: location.title, click: $parent.clickList"></span>

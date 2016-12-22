@@ -34,6 +34,9 @@ h1{
     margin: 0 0 10px 0;
     text-align: center;
 }
+h4{
+    text-align: center;
+}
             
 #hide-locations,
 #show-locations {
