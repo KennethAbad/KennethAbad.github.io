@@ -326,7 +326,7 @@ function MapVM() {
         else {
             self.toggleValue('hide');
         }
-    }
+    };
 }
 
 // This function populates images from the Flickr API. It grabs the location name and uses it as search text.
@@ -360,7 +360,7 @@ function getFlickrImage(clickedItemName) {
                     item.secret +
                     '_m.jpg";)></div>';
                 urls.push(photoURL);
-            })
+            });
             $.each(markers, function(item, location) {
                 if (clickedItemName === location.title) {
                     map.panTo(location.position);
@@ -375,7 +375,7 @@ function getFlickrImage(clickedItemName) {
                         largeInfowindow.setMarker(null);
                     });
                 }
-            })
+            });
 
         })
         // error handling
@@ -438,4 +438,4 @@ function makeMarkerIcon(markerColor) {
 
 function loadMap() {
     ko.applyBindings(new MapVM());
-};
+}
