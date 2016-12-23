@@ -176,10 +176,10 @@ function MapVM() {
 
         for (i = 0; i < array.length; i++) {
             if (array[i].title.toLowerCase().indexOf(searchElem) != -1) {
-                self.mapList()[i].setMap(map);
+                self.mapList()[i].setVisible(true);
                 self.locationList.push(array[i]);
             } else {
-                self.mapList()[i].setMap(null);
+                self.mapList()[i].setVisible(false);
             }
         }
     };
