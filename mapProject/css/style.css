@@ -1,5 +1,6 @@
 #location-list-item {
     list-style-type: none;
+    list-style-position: outside;
     border-bottom: 1px solid #000000;
     text-align: left;
     margin: 0;
@@ -9,6 +10,11 @@
 #search-bar {
     width: 100%;
     height: 20px;
+    border-width: 1px;
+}
+#locations-container {
+	overflow: scroll;
+    max-height: 650px;
 }
 html,
 body {
@@ -17,21 +23,19 @@ body {
     margin: 0;
     padding: 0;
 }
-.container {
-    height: 100%;
-    position: relative;
 }
 input {
     font-size: 12px;
 }
 h1 {
     color: #525454;
-    font-size: 22px;
     margin: 0 0 10px 0;
     text-align: center;
+    font-size-adjust: auto;
 }
 h4 {
     text-align: center;
+    font-size-adjust: auto;
 }
 #hide-locations,
 #show-locations {
@@ -40,31 +44,94 @@ h4 {
 hr {
     background: #D0D7D9;
     height: 1px;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 10px 0;
     border: none;
 }
 #map {
     bottom: 0px;
     height: 100%;
-    left: 362px;
+    left: auto;
     position: absolute;
     right: 0px;
+    max-width: 100%;
 }
-.options-box {
+.menu {
     background: #fff;
     border: 1px solid #999;
     border-radius: 3px;
-    height: 715px;
+    height: 750px;
     line-height: 35px;
     padding: 10px 10px 30px 10px;
     text-align: left;
-    width: 340px;
-    overflow: auto;
+    max-width: 100%
+    overflow: scroll;
 }
 #info {
-    width: 200px;
-    height: 200px;
+    max-width: 250px;
+    max-height: 250px;
 }
 .text {
-    font-size: 12px;
+    font-size-adjust: auto;
+}
+.btn {
+    text-align: center;
+}
+#icon {
+	position: absolute;
+    z-index: 99;
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+/*   Media Queries   */
+@media screen and (max-width: 349px) {
+    .title{
+        font-size: 14px;
+    }
+    .list{
+        font-size: 12px;
+    }
+    .text {
+	    font-size: 12px;
+    }
+    .btn {
+	    width: 100%;
+    }
+    .btntext {
+	    font-size: 10px;
+        white-space: normal;
+        text-align: center;
+    }
+    .img-fluid{
+        max-width: 100%;
+    }
+    #info {
+	    max-width: 150px;
+        max-height: 150px;
+    }
+}
+@media screen and (min-width: 350px) and (max-width: 990px) {
+     .title{
+        font-size: 18px;
+    }
+    .list{
+        font-size: 14px;
+    }
+    .text {
+	    font-size: 12px;
+    }
+    .btn {
+	    width: 100%;
+    }
+    .btntext {
+	    font-size: 10px;
+        white-space: normal;
+        text-align: center;
+    }
+    .img-fluid{
+        max-width: 100%;
+    }
+    #info {
+        max-width: 200px;
+        max-height: 200px;
+    }
 }

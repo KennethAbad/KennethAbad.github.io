@@ -154,7 +154,9 @@ function MapVM() {
     this.searchList = ko.observableArray([]);
     // Array that contains all the markers/locations
     this.mapList = ko.observableArray([]);
-
+    // Toggle display for location list
+    this.toggleValue = ko.observable('hide');
+    
     // Function that is executed once the user clicks on a location from the list.
     // When clicked, its marker on the map will animate and open an infowindow with the content.
     this.clickList = function(clickedItem) {
@@ -316,6 +318,15 @@ function MapVM() {
         });
         showLocations();
     }
+    // 
+    this.toggleLocations = function() {
+        if(self.toggleValue() === 'hide'){
+            self.toggleValue('show');
+        }
+        else {
+            self.toggleValue('hide');
+        }
+    }
 }
 
 // This function populates images from the Flickr API. It grabs the location name and uses it as search text.
@@ -339,7 +350,7 @@ function getFlickrImage(clickedItemName) {
             // clear array
             urls = [];
             $.each(data.photos.photo, function(i, item) {
-                photoURL = '<div><img src="http://farm' +
+                photoURL = '<div><img class="img-fluid" src="http://farm' +
                     item.farm +
                     '.static.flickr.com/' +
                     item.server +
@@ -353,7 +364,7 @@ function getFlickrImage(clickedItemName) {
             $.each(markers, function(item, location) {
                 if (clickedItemName === location.title) {
                     map.panTo(location.position);
-                    largeInfowindow.setContent('<div align=center><h4>' + location.title + '</h4></div>' +
+                    largeInfowindow.setContent('<div><h4>' + location.title + '</h4></div>' +
                         '<div id="info" class="image-container">' +
                         urls.join('') +
                         '</div>');

@@ -14,8 +14,8 @@ In order to set up and check the project locally:
 
 4) The page will load up. Click on the 'Show Listings' button to display the markers.
 
-5) Click either a marker or a location name to display images of that location.
+5) Click either a marker or a location name to display Flickr images of that location.
 
 6) Filter through the list by using the search bar on the left. When you are ready to search just hit enter/return. To get the full list again just clear the entry and hit enter/return again.
 
-7) Click on the 'Hide listings' button to hide the markers.
+7) Click on the 'Show/Hide Locations' button to toggle visibility of the locations.

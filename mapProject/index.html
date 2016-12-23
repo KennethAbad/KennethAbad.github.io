@@ -2,29 +2,39 @@
 <html>
 
 <head>
+   <title>NYC Snapshots</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div class="container">
-        <div class="options-box">
-            <h1>NYC Snapshots</h1>
-            <div id='locations-container'>
-                <form id="form-container" class="form-container" data-bind='submit: searchLocation'>
-                    <input id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
-                </form>
-                <h4>Locations</h4>
-                <ul data-bind="foreach: { data: locationList, as: 'location' }">
-                    <li id="location-list-item">
-                        <span data-bind="text: location.title, click: $parent.clickList"></span>
-                    </li>
-                </ul>
+    <div class="row-fluid">
+        <div class="container col-xs-12 col-sm-12 col-md-12">
+            <div class='menu col-xs-4 col-sm-3 col-md-3'>
+                <h1 class="title">NYC Snapshots</h1>
+                <div id="locations-container">
+                    <form id="form-container" class="form-container" data-bind='submit: searchLocation'>
+                        <input id="search-bar" placeholder="Search" autocomplete="off" data-bind="value: searchValue, valueUpdate: 'keyup'">
+                    </form>
+                    <button data-bind="click: toggleLocations" class="btn"><span class="btntext">Show/Hide Locations</span></button>
+                    <h4 class="list">Locations</h4>
+                    <div id="location-list" data-bind="foreach: { data: locationList, as: 'location' }, visible: toggleValue() != 'hide'">
+                        <div id="location-list-item">
+                            <span class="text" data-bind="text: location.title, click: $parent.clickList"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <div id="map" class="col-xs-8 col-sm-9 col-md-9">
             </div>
         </div>
-        <div id="map"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script type='text/javascript' src='knockout-3.4.1.js'></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClciKsNtBjJbCGumw5nyi0CM45vmaTxxo&libraries=geometry&v=3&callback=loadMap" onerror="googleError()"></script>
     <script src="script.js"></script>
