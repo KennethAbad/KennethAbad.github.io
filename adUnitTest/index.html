@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ad Unit</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <ul class="flex-container">
+        <li class="flex-item">
+            <div class="carousel active">
+                <ol class="content">
+
+                    <li class="contentItem1 slide1 current">
+                        <img width="150" src="SE_Test_Assets/slide1_logo.png" />
+                        <img class="slide1Large" src="SE_Test_Assets/slide1_copylarge.png" />
+                        <img class="slide1Small" src="SE_Test_Assets/slide1_copysmall.png" /><br><br>
+                        <a href="https://qz.com" target="_blank">
+                            <img width="120" src="SE_Test_Assets/slide1_button.png" />
+                        </a>
+                    </li>
+
+                    <li class="contentItem2 slide2">
+                        <img class="slide2Large" src="SE_Test_Assets/slide2_copylarge.png" />
+                        <img class="slide2Small" src="SE_Test_Assets/slide2_copysmall.png" />
+                        <a href="https://creative.qz.com/" target="_blank">
+                            <img width="120" src="SE_Test_Assets/slide2_button.png" />
+                        </a>
+                    </li>
+                </ol>
+                <div class="buttons">
+                    <button class="previous">
+                        <img width="40" class="responsove" src="SE_Test_Assets/left_arrow.png" />
+                        <span class="offscreen">Previous</span>
+                    </button>
+                    <button class="next">
+                            <img width="40" class="responsive" src="SE_Test_Assets/right_arrow.png" />
+                            <span class="offscreen">Next</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+
+        <li class="flex-item">
+            <video id="barclays" autoplay muted playsinline loop>
+                <source src="SE_Test_Assets/BarclaysEdTech.mp4" type="video/mp4">
+                Your browser does not support html5 video playback.
+            </video>
+        </li>
+    </ul>
+    <script src="js/app.js" defer></script>
+</body>
+</html>

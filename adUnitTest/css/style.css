@@ -1,0 +1,114 @@
+img {
+    max-width: 100%;
+}
+.video {
+    object-fit: contain;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.content {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+
+.content li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel.active {
+    height: 250px;
+    width: 300px;
+}
+
+.active li {
+    position: absolute;
+    top: 1000px;
+}
+
+.active li.current {
+    top: 0px;
+}
+
+.active .buttons {
+    padding: 5px 0;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    top: 45%;
+}
+
+.carousel button {
+    display: none;
+}
+
+.active button {
+    display: block;
+}
+
+.content li.slide1 {
+    background-color: #23335d;
+    width: 100%;
+}
+
+.content li.slide2 {
+    background-color: white;
+}
+
+.offscreen {
+    position: absolute;
+    left: -2000px;
+}
+
+.flex-container{
+    display: flex;
+    justify-content: flex-start safe;
+    list-style: none;
+    padding: 0;
+    flex-flow: wrap-reverse;  /* Setting this will make the second list item wrap first since the container only holds two items */
+}
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+/* MEDIA QUERIES */
+
+/* When the screen hits below 767px, the video will adjust its width. */
+/* The images will also swap from large to small. */
+@media screen and (max-width: 767px) {
+    video {
+        width: 300px;
+    }
+    .slide1Large, .slide2Large {
+        display: none;
+    }
+    .slide1Small, .slide2Small {
+        display: block;
+    }
+}
+/* When the screen hits past 767px, the video will adjust its width and height. */
+/* The images will also swap from small to large. */
+@media screen and (min-width: 768px) {
+    video {
+        width: 400px;
+        height: 215px;
+    }
+    .slide1Small, .slide2Small {
+        display: none;
+    }
+    .slide1Large, .slide2Large {
+        display: block;
+    }
+}
